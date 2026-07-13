@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://c7e4fcyaans3r"]
+
+[ext_resource type="Script" uid="uid://cutcgaldhwyua" path="res://game.gd" id="1_1w1vu"]
+[ext_resource type="Script" uid="uid://ixov65xfx1y0" path="res://board.gd" id="2_i8w64"]
+
+[node name="Game" type="Node2D" unique_id=217272357]
+script = ExtResource("1_1w1vu")
+
+[node name="Board" type="GridContainer" parent="." unique_id=1496129298]
+offset_left = 23.0
+offset_top = 17.0
+offset_right = 181.0
+offset_bottom = 175.0
+columns = 3
+script = ExtResource("2_i8w64")
+
+[node name="Cell_1" type="Button" parent="Board" unique_id=829968285]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "1"
+
+[node name="Cell_2" type="Button" parent="Board" unique_id=1236794983]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "2"
+
+[node name="Cell_3" type="Button" parent="Board" unique_id=941570761]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "3"
+
+[node name="Cell_4" type="Button" parent="Board" unique_id=2056342889]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "4"
+
+[node name="Cell_5" type="Button" parent="Board" unique_id=713692398]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "5"
+
+[node name="Cell_6" type="Button" parent="Board" unique_id=17428312]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "6"
+
+[node name="Cell_7" type="Button" parent="Board" unique_id=1932273464]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "7"
+
+[node name="Cell_8" type="Button" parent="Board" unique_id=346395601]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "8"
+
+[node name="Cell_9" type="Button" parent="Board" unique_id=607501544]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "9"
