@@ -47,10 +47,6 @@ Game
 	├── Cell_7
 	├── Cell_8
 	└── Cell_9
-<details>
-<summary>Voorbeeldoplossing</summary>
-
-```gdscript
 ```
 
 Elke knop stelt één vakje voor. Een leeg vakje toont zijn *index*, dus bijvoorbeeld `1` of `9`.
@@ -80,9 +76,21 @@ nummer zichtbaar afdrukken. In de oefeningen voegen we stap voor stap gedrag toe
 
 ## De Board API
 
-Een **API** is een afgesproken manier waarop je een onderdeel van een programma kunt gebruiken. Je
-hoeft dan niet te weten hoe dat onderdeel intern is gebouwd. Je hoeft alleen te weten welke namen,
-invoer en resultaten beschikbaar zijn.
+Een **API (Application Programming *Interface*)** is een afgesproken manier waarop je een onderdeel
+van een programma kunt gebruiken. Je hoeft dan niet te weten hoe dat onderdeel intern is gebouwd. Je
+hoeft alleen te weten welke namen, invoer en resultaten beschikbaar zijn.
+
+Een *interface* is de buitenkant van een systeem of onderdeel waarmee iets van buitenaf contact kan
+maken. De interface beschrijft dus welke mogelijkheden beschikbaar zijn en hoe je die gebruikt,
+maar niet hoe ze aan de binnenkant zijn uitgevoerd. Je kunt de interface zien als het bruikbare
+gedeelte van de *grens* van een systeem: de grens scheidt het systeem van de buitenwereld, en de
+interface bepaalt hoe de buitenwereld het systeem kan benaderen en gebruiken.
+
+De publieke API van `Board` is de interface van het bord. Vanuit `game.gd` kunnen we via die
+interface bijvoorbeeld `get_cell()` en `set_cell()` gebruiken. De interne werking van `board.gd`
+blijft aan de andere kant van de systeemgrens verborgen.
+
+
 
 Het bord heeft daarom een kleine publieke API. Vanuit `game.gd` gebruiken we alleen deze onderdelen:
 
@@ -97,9 +105,9 @@ board.set_cell(cell_index, state)
 
 `CellState` beschrijft de drie mogelijke toestanden van een vakje: leeg, `X` of `O`.
 `get_cell(cell_index)` leest de toestand van een vakje. `set_cell(cell_index, state)` verandert de
-toestand van een vakje en werkt de zichtbare tekst op het bord bij. Een bestaande toestand mag daarbij
-worden overschreven. Het bord controleert niet of dat volgens de spelregels verstandig is; die
-beslissing hoort bij `game.gd`.
+toestand van een vakje en werkt de zichtbare tekst op het bord bij. Een bestaande toestand mag
+daarbij worden overschreven. Het bord controleert niet of dat volgens de spelregels verstandig is;
+die beslissing hoort bij `game.gd`.
 
 ### Privéonderdelen
 
@@ -108,10 +116,12 @@ bijvoorbeeld `_set_empty_style()`, `_set_filled_style()` en `_ready()`. Zo'n naa
 functie bedoeld is voor de interne werking van het script en niet voor gebruik vanuit een ander
 script.
 
-`board.gd` heeft zulke privéonderdelen voor de opmaak van lege en ingevulde vakjes en voor het
+`board.gd` heeft zulke privéonderdelen voor de weergave van lege en ingevulde vakjes en voor het
 aansluiten van de knoppen. Je hoeft daar nu niet naar te kijken en je hoeft deze functies niet te
-gebruiken. Ze vallen buiten de scope van de leerdoelen van deze les. Gebruik voor het bord alleen de
-publieke API hierboven en schrijf de spelregels in `game.gd`.
+gebruiken. Ze vallen buiten de leerdoelen van deze les. Gebruik voor het bord alleen
+de publieke API hierboven en schrijf de spelregels in `game.gd`.
+
+
 
 ## Opdrachten
 
@@ -121,9 +131,19 @@ vastloopt of je eigen oplossing wilt vergelijken. Houd de Godot-editor tijdens h
 scherm open en zet deze les op een tweede scherm. Zo kun je de opdracht lezen terwijl je de code in
 Godot aanpast en het resultaat meteen uitproberen.
 
-De codevoorbeelden zijn open diff-fragmenten. Ze tonen alleen wat er ten opzichte van de vorige stap
-verandert. Een diff is bedoeld om goed te bekijken en over te typen; het is geen compleet script dat
-je direct kunt kopiëren.
+Bij deze manier van leren is het belangrijk dat je kunt omgaan met onduidelijkheid. De gegeven
+spelbasis is een werkend systeem met onderdelen die je nog niet hebt geleerd. Het is niet de
+bedoeling dat je alles meteen doorgrondt. Richt je vooral op de concepten en oplossingen die in deze
+les worden uitgelegd. Je hoeft dus niet bang te zijn wanneer je iets tegenkomt dat nog vaag is.
+
+Je mag alles wat je tegenkomt wel lezen of onderzoeken. Misschien herken je al iets, zonder dat je
+precies weet hoe het werkt. In volgende lessen leer je sommige onderdelen stap voor stap. Andere
+onderdelen kom je vaker tegen; door herhaling en ervaring vallen die later vanzelf op hun plaats.
+Zo groeit je begrip geleidelijk, ook wanneer je niet alles vooraf kunt verklaren.
+
+De codevoorbeelden in deze lessen zijn open diff-fragmenten. Ze tonen alleen wat er ten opzichte van
+de vorige stap verandert. Een diff is bedoeld om goed te bekijken en over te typen; het is geen
+compleet script dat je direct kunt kopiëren.
 
 ### Opdracht 1. Plaats altijd een X
 
@@ -131,6 +151,10 @@ We beginnen met de gegeven spelbasis. Het speelbord is zichtbaar en je kunt op a
 De klik komt aan bij de functie `on_cell_clicked(cell_index)`. Het nummer van het aangeklikte vakje
 verschijnt in de uitvoer door `print()`, maar verder gebeurt er nog niets met de klik. De board state
 verandert nog niet: een leeg vakje blijft zijn nummer tonen.
+
+De gegeven spelbasis bestaat uit `board.gd` en `game.gd`. `board.gd` zorgt voor de infrastructuur van
+het speelbord en hoef je voor deze opdrachten niet te veranderen. In `game.gd` schrijf je de
+oplossingen van de opdrachten; daar programmeer je de spelregels.
 
 De functie `on_cell_clicked(cell_index)` ontvangt dus al input, maar gebruikt die input nog niet om
 het spel te veranderen. In deze opdracht voegen we de eerste spelregel toe: na iedere klik vullen we
@@ -193,8 +217,11 @@ bewaart. Die waarde kan later worden uitgelezen en blijft beschikbaar zolang de 
 Een variabele is daarmee een eenvoudige vorm van state: het programma onthoudt iets tussen twee
 momenten.
 
-In GDScript bepaalt de plaats waar je een variabele schrijft in welke *scope* de variabele bestaat.
-Een variabele die buiten alle functies in een script staat, heeft *script scope*. Zo'n variabele is
+In GDScript is de *scope* het deel van een script waarin een programmeerelement zichtbaar en
+bruikbaar is. Een programmeerelement kan bijvoorbeeld een variabele, functie of constante zijn.
+De scope bepaalt dus vanuit welke delen van een script je de naam van zo'n element kunt gebruiken.
+Waar je een variabele schrijft, bepaalt daarom in welke scope die variabele bestaat. Een variabele
+die buiten alle functies in een script staat, heeft *script scope*. Zo'n variabele is
 een *membervariabele* van het node: alle functies van dat script kunnen haar gebruiken en haar waarde
 blijft tussen functieaanroepen bewaard. In `game.gd` is `board` zo'n membervariabele. De regel
 `@onready var board = $Board` bewaart een verwijzing naar de Board-node, zodat functies in `game.gd`
@@ -321,7 +348,7 @@ op een gevuld vakje klikt, printen we een klacht in de uitvoer.
 
 De spelregel die bepaalt of een zet geldig is, hoort bij `game.gd`. Ook de reactie op een ongeldige
 zet hoort daarom bij `game.gd`. In een echt spel zou je deze boodschap waarschijnlijk zichtbaar in
-de game scene tonen, bijvoorbeeld naast het bord. Dat valt buiten de scope van deze les. We gebruiken
+de game scene tonen, bijvoorbeeld naast het bord. Dat valt buiten wat we in deze les behandelen. We gebruiken
 nu `print()` als eenvoudige output, zodat je kunt zien dat het programma de foute zetpoging herkent.
 
 Bij een `if`/`else`-constructie is het een bruikbare conventie om de *happy path* in het `waar`-pad
